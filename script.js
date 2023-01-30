@@ -1,147 +1,81 @@
-//alement
-const button = document.getElementById("button");
-const audioElement = document.getElementById("audio");
-// VoiceRSS Javascript SDK
-const VoiceRSS = {
-  speech: function (e) {
-    this._validate(e), this._request(e);
-  },
-  _validate: function (e) {
-    if (!e) throw "The settings are undefined";
-    if (!e.key) throw "The API key is undefined";
-    if (!e.src) throw "The text is undefined";
-    if (!e.hl) throw "The language is undefined";
-    if (e.c && "auto" != e.c.toLowerCase()) {
-      var a = !1;
-      switch (e.c.toLowerCase()) {
-        case "mp3":
-          a = new Audio().canPlayType("audio/mpeg").replace("no", "");
-          break;
-        case "wav":
-          a = new Audio().canPlayType("audio/wav").replace("no", "");
-          break;
-        case "aac":
-          a = new Audio().canPlayType("audio/aac").replace("no", "");
-          break;
-        case "ogg":
-          a = new Audio().canPlayType("audio/ogg").replace("no", "");
-          break;
-        case "caf":
-          a = new Audio().canPlayType("audio/x-caf").replace("no", "");
-      }
-      if (!a) throw "The browser does not support the audio codec " + e.c;
-    }
-  },
-  _request: function (e) {
-    var a = this._buildRequest(e),
-      t = this._getXHR();
-    (t.onreadystatechange = function () {
-      if (4 == t.readyState && 200 == t.status) {
-        if (0 == t.responseText.indexOf("ERROR")) throw t.responseText;
-
-        (audioElement.src = t.responseText), audioElement.play();
-      }
-    }),
-      t.open("POST", "https://api.voicerss.org/", !0),
-      t.setRequestHeader(
-        "Content-Type",
-        "application/x-www-form-urlencoded; charset=UTF-8"
-      ),
-      t.send(a);
-  },
-  _buildRequest: function (e) {
-    var a = e.c && "auto" != e.c.toLowerCase() ? e.c : this._detectCodec();
-    return (
-      "key=" +
-      (e.key || "") +
-      "&src=" +
-      (e.src || "") +
-      "&hl=" +
-      (e.hl || "") +
-      "&r=" +
-      (e.r || "") +
-      "&c=" +
-      (a || "") +
-      "&f=" +
-      (e.f || "") +
-      "&ssml=" +
-      (e.ssml || "") +
-      "&b64=true"
-    );
-  },
-  _detectCodec: function () {
-    var e = new Audio();
-    return e.canPlayType("audio/mpeg").replace("no", "")
-      ? "mp3"
-      : e.canPlayType("audio/wav").replace("no", "")
-      ? "wav"
-      : e.canPlayType("audio/aac").replace("no", "")
-      ? "aac"
-      : e.canPlayType("audio/ogg").replace("no", "")
-      ? "ogg"
-      : e.canPlayType("audio/x-caf").replace("no", "")
-      ? "caf"
-      : "";
-  },
-  _getXHR: function () {
-    try {
-      return new XMLHttpRequest();
-    } catch (e) {}
-    try {
-      return new ActiveXObject("Msxml3.XMLHTTP");
-    } catch (e) {}
-    try {
-      return new ActiveXObject("Msxml2.XMLHTTP.6.0");
-    } catch (e) {}
-    try {
-      return new ActiveXObject("Msxml2.XMLHTTP.3.0");
-    } catch (e) {}
-    try {
-      return new ActiveXObject("Msxml2.XMLHTTP");
-    } catch (e) {}
-    try {
-      return new ActiveXObject("Microsoft.XMLHTTP");
-    } catch (e) {}
-    throw "The browser does not support HTTP request";
-  },
-};
-// api control
-let joke = "";
+const toggleswitch = document.querySelector('input[type="checkbox"]');
+const nav = document.getElementById("nav");
+const toggleIcon = document.getElementById("toggle-icon");
+const image1 = document.getElementById("image1");
+const image2 = document.getElementById("image2");
+const image3 = document.getElementById("image3");
+const textBox = document.getElementById("text-box");
 //
-const jokeUrl = "https://v2.jokeapi.dev/joke/Programming";
-const ApiKey = "c7fa41b4603d4c958a0c5bd33c503a90";
-// getJokes
-async function getJokes() {
-  try {
-    const response = await fetch(jokeUrl);
-    const data = await response.json();
-    data.setup ? (joke = `${data.setup},${data.delivery}`) : (joke = data.joke);
-    tellMe(joke);
-  } catch (error) {
-    console.log("something was wrong", error);
-  }
+
+// Dark or Light Images
+function imageMode(color) {
+  image1.src = `img/undraw_proud_coder_${color}.svg`;
+  image2.src = `img/undraw_feeling_proud_${color}.svg`;
+  image3.src = `img/undraw_conceptual_idea_${color}.svg`;
 }
-// telmee
-function tellMe(a_joke) {
-  const my_joke = `i have a joke, ${a_joke}`;
-  toggleButton();
-  console.log(my_joke);
-  VoiceRSS.speech({
-    key: ApiKey,
-    src: my_joke,
-    hl: "en-us",
-    v: "Linda",
-    r: 0,
-    c: "mp3",
-    f: "44khz_16bit_stereo",
-    ssml: false,
-  });
+// Dark Mode Styles
+// function darkMode() {
+//   document.documentElement.setAttribute("data-theme", "dark");
+//   nav.style.backgroundColor = "rgb(0 0 0 / 50%)";
+//   textBox.style.backgroundColor = "rgb(255 255 255 / 50%)";
+//   toggleIcon.children[0].textContent = "Dark Mode";
+//   toggleIcon.children[1].classList.replace("fa-sun", "fa-moon");
+//   imageMode("dark");
+//   localStorage.setItem("theme", "dark");
+// }
+// Light Mode Styles
+// function lightMode() {
+//   document.documentElement.setAttribute("data-theme", "light");
+//   nav.style.backgroundColor = "rgb(255 255 255 / 50%)";
+//   textBox.style.backgroundColor = "rgb(0 0 0 / 50%)";
+//   toggleIcon.children[0].textContent = "Light Mode";
+//   toggleIcon.children[1].classList.replace("fa-moon", "fa-sun");
+//   imageMode("light");
+//   localStorage.setItem("theme", "light");
+// }
+function toggleMode(theme) {
+  const temaMode = `${theme ? "dark" : "light"}`;
+  document.documentElement.setAttribute("data-theme", temaMode);
+  nav.style.backgroundColor = theme
+    ? "rgb(0 0 0 / 50%)"
+    : "rgb(255 255 255 / 50%)";
+  textBox.style.backgroundColor = theme
+    ? "rgb(255 255 255 / 50%)"
+    : "rgb(0 0 0 / 50%)";
+  toggleIcon.children[0].textContent = theme ? "Dark Mode" : "Light Mode";
+  theme
+    ? toggleIcon.children[1].classList.replace("fa-sun", "fa-moon")
+    : toggleIcon.children[1].classList.replace("fa-moon", "fa-sun");
+  imageMode(temaMode);
+  localStorage.setItem("choice", theme);
+  //   localStorage.setItem("theme", temaMode);
 }
-// button togle
-function toggleButton() {
-  button.disabled = !button.disabled;
+// togle methode
+let currentChoiceTheme = localStorage.getItem("choice");
+toggleMode(currentChoiceTheme);
+currentChoiceTheme
+  ? (toggleswitch.checked = true)
+  : (toggleswitch.checked = false);
+
+function swichTheme(event) {
+  const checkStatus = event.target.checked;
+  toggleMode(checkStatus);
+  currentChoiceTheme = localStorage.getItem("choice");
+  //   console.log(checkStatus);
+  //   checkStatus ? darkMode() : lightMode();
+  //   console.log(currentChoiceTheme);
 }
-// load
-// event
-button.addEventListener("click", getJokes);
-audioElement.addEventListener("ended", toggleButton);
+
+//  Event Listener
+toggleswitch.addEventListener("change", swichTheme);
+
+// Check Local Storage For Theme
+// const currentTheme = localStorage.getItem("theme");
+// if (currentTheme) {
+//   document.documentElement.setAttribute("data-theme", currentTheme);
+//   if (currentTheme === "dark") {
+//     toggleswitch.checked = true;
+//     toggleMode(true);
+//     // darkMode();
+//   }
+// }
