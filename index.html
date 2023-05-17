@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Piscute in Picture</title>
+    <title>Joke Teller</title>
     <link rel="icon" type="image/png" href="favicon.png" />
     <link
       rel="stylesheet"
@@ -12,11 +12,9 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <!-- video -->
-    <video src="" control height="360" width="640" id="video" hidden></video>
-    <!-- Button -->
-    <div class="button-containiner">
-      <button id="button">Start</button>
+    <div class="container">
+      <button id="button" disabled>Tell Me A Joke</button>
+      <audio id="audio" controls hidden src=""></audio>
     </div>
     <!-- Script -->
     <script src="index.js"></script>
