@@ -1,141 +1,72 @@
-// VoiceRSS Javascript SDK
-const audioElement = document.getElementById("audio");
-const button = document.getElementById("button");
-const VoiceRSS = {
-  speech: function (e) {
-    this._validate(e), this._request(e);
-  },
-  _validate: function (e) {
-    if (!e) throw "The settings are undefined";
-    if (!e.key) throw "The API key is undefined";
-    if (!e.src) throw "The text is undefined";
-    if (!e.hl) throw "The language is undefined";
-    if (e.c && "auto" != e.c.toLowerCase()) {
-      var a = !1;
-      switch (e.c.toLowerCase()) {
-        case "mp3":
-          a = new Audio().canPlayType("audio/mpeg").replace("no", "");
-          break;
-        case "wav":
-          a = new Audio().canPlayType("audio/wav").replace("no", "");
-          break;
-        case "aac":
-          a = new Audio().canPlayType("audio/aac").replace("no", "");
-          break;
-        case "ogg":
-          a = new Audio().canPlayType("audio/ogg").replace("no", "");
-          break;
-        case "caf":
-          a = new Audio().canPlayType("audio/x-caf").replace("no", "");
-      }
-      if (!a) throw "The browser does not support the audio codec " + e.c;
-    }
-  },
-  _request: function (e) {
-    var a = this._buildRequest(e),
-      t = this._getXHR();
-    (t.onreadystatechange = function () {
-      if (4 == t.readyState && 200 == t.status) {
-        if (0 == t.responseText.indexOf("ERROR")) throw t.responseText;
-        (audioElement.src = t.responseText), audioElement.play();
-      }
-    }),
-      t.open("POST", "https://api.voicerss.org/", !0),
-      t.setRequestHeader(
-        "Content-Type",
-        "application/x-www-form-urlencoded; charset=UTF-8"
-      ),
-      t.send(a);
-  },
-  _buildRequest: function (e) {
-    var a = e.c && "auto" != e.c.toLowerCase() ? e.c : this._detectCodec();
-    return (
-      "key=" +
-      (e.key || "") +
-      "&src=" +
-      (e.src || "") +
-      "&hl=" +
-      (e.hl || "") +
-      "&r=" +
-      (e.r || "") +
-      "&c=" +
-      (a || "") +
-      "&f=" +
-      (e.f || "") +
-      "&ssml=" +
-      (e.ssml || "") +
-      "&b64=true"
-    );
-  },
-  _detectCodec: function () {
-    var e = new Audio();
-    return e.canPlayType("audio/mpeg").replace("no", "")
-      ? "mp3"
-      : e.canPlayType("audio/wav").replace("no", "")
-      ? "wav"
-      : e.canPlayType("audio/aac").replace("no", "")
-      ? "aac"
-      : e.canPlayType("audio/ogg").replace("no", "")
-      ? "ogg"
-      : e.canPlayType("audio/x-caf").replace("no", "")
-      ? "caf"
-      : "";
-  },
-  _getXHR: function () {
-    try {
-      return new XMLHttpRequest();
-    } catch (e) {}
-    try {
-      return new ActiveXObject("Msxml3.XMLHTTP");
-    } catch (e) {}
-    try {
-      return new ActiveXObject("Msxml2.XMLHTTP.6.0");
-    } catch (e) {}
-    try {
-      return new ActiveXObject("Msxml2.XMLHTTP.3.0");
-    } catch (e) {}
-    try {
-      return new ActiveXObject("Msxml2.XMLHTTP");
-    } catch (e) {}
-    try {
-      return new ActiveXObject("Microsoft.XMLHTTP");
-    } catch (e) {}
-    throw "The browser does not support HTTP request";
-  },
-};
+const toggleSwitch = document.querySelector("input[type='checkbox']");
 
-const ApiKey = "c7fa41b4603d4c958a0c5bd33c503a90";
-function articulateAJokeWithApi(jokeToSay) {
-  // console.log(jokeToSay);
-  toggleDisabbleButton();
-  VoiceRSS.speech({
-    key: ApiKey,
-    src: `${jokeToSay}`,
-    hl: "en-us",
-    r: 0,
-    c: "mp3",
-    f: "44khz_16bit_stereo",
-  });
+const nav = document.getElementById("nav");
+const toggleIcon = document.getElementById("toggle-icon");
+const image1 = document.getElementById("image1");
+const image2 = document.getElementById("image2");
+const image3 = document.getElementById("image3");
+const textBox = document.getElementById("text-box");
+//Dark Mode Style
+function darkMode() {
+  nav.style.backgroundColor = "rgb(0 0 0/50%)";
+  textBox.style.backgroundColor = "rgb(255 255 255/50%)";
+  toggleIcon.children[0].textContent = "Dark Mode";
+  toggleIcon.children[1].classList.remove("fa-sun");
+  toggleIcon.children[1].classList.add("fa-moon");
+  image1.src = "img/undraw_conceptual_idea_dark.svg";
+  image2.src = "img/undraw_feeling_proud_dark.svg";
+  image3.src = "img/undraw_proud_coder_dark.svg";
 }
-async function getAJokeFromApi() {
-  try {
-    const response = await fetch("https://v2.jokeapi.dev/joke/Programming");
-    const data = await response.json();
-    const acumulateJokeFromData = jointAJoke(data);
-    articulateAJokeWithApi(acumulateJokeFromData);
-  } catch (error) {
-    console.log("we find some error", error);
+function lightMode() {
+  textBox.style.backgroundColor = "rgb(0 0 0/50%)";
+  nav.style.backgroundColor = "rgb(255 255 255/50%)";
+  toggleIcon.children[0].textContent = "Light Mode";
+  toggleIcon.children[1].classList.add("fa-sun");
+  toggleIcon.children[1].classList.remove("fa-moon");
+  image1.src = "img/undraw_conceptual_idea_light.svg";
+  image2.src = "img/undraw_feeling_proud_light.svg";
+  image3.src = "img/undraw_proud_coder_light.svg";
+}
+//
+function toggleMode(choseDarkMode) {
+  console.log(choseDarkMode);
+  nav.style.backgroundColor = choseDarkMode
+    ? "rgb(0 0 0/50%)"
+    : "rgb(255 255 255/50%)";
+  textBox.style.backgroundColor = choseDarkMode
+    ? "rgb(255 255 255/50%)"
+    : "rgb(0 0 0/50%)";
+  toggleIcon.children[0].textContent = choseDarkMode
+    ? "Dark Mode"
+    : "Light Mode";
+  toggleIcon.children[1].classList.remove(choseDarkMode ? "fa-sun" : "fa-moon");
+  toggleIcon.children[1].classList.add(choseDarkMode ? "fa-moon" : "fa-sun");
+  image1.src = `img/undraw_conceptual_idea_${
+    choseDarkMode ? "dark" : "light"
+  }.svg`;
+  image2.src = `img/undraw_feeling_proud_${
+    choseDarkMode ? "dark" : "light"
+  }.svg`;
+  image3.src = `img/undraw_proud_coder_${choseDarkMode ? "dark" : "light"}.svg`;
+}
+//Switch Theme Dynamically
+function switchTheme(event) {
+  const choseDarkMode = event.target.checked;
+  if (event.target.checked) {
+    toggleMode(choseDarkMode);
+    localStorage.setItem("theme", "dark");
+    document.documentElement.setAttribute("data-theme", "dark");
+  } else {
+    toggleMode(choseDarkMode);
+    localStorage.setItem("theme", "light");
+    document.documentElement.removeAttribute("data-theme", "dark");
   }
 }
-function jointAJoke(jokeData) {
-  if (jokeData.type === "twopart") {
-    return `${jokeData.setup},${jokeData.delivery}`;
-  }
-  return jokeData.joke;
-}
-function toggleDisabbleButton() {
-  button.disabled = !button.disabled;
-}
-getAJokeFromApi();
-button.addEventListener("click", getAJokeFromApi);
-audioElement.addEventListener("ended", toggleDisabbleButton);
+
+//Event Listener
+toggleSwitch.addEventListener("change", switchTheme);
+//Check Local Storage
+const currentThemeIsDark = localStorage.getItem("theme") === "dark";
+console.log(currentThemeIsDark);
+toggleSwitch.checked = currentThemeIsDark;
+toggleMode(currentThemeIsDark);
