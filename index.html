@@ -4,11 +4,37 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="index.css" />
     <title>Document</title>
   </head>
   <body>
-    <script src="models.js"></script>
+    <div id="circleTime">
+      <svg height="400" width="400">
+        <circle
+          r="190"
+          cx="200"
+          cy="200"
+          fill="transparent"
+          stroke="green"
+          stroke-width="15"
+          transform="rotate(-90 200 200)"
+        />
+      </svg>
+      <div id="timeCount">
+        <input id="duration" type="text" value="30" />
+        <div class="button">
+          <button id="start"><i class="fas fa-play"></i></button>
+          <button id="pause"><i class="fas fa-pause"></i></button>
+        </div>
+      </div>
+    </div>
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
     <script src="index.js"></script>
   </body>
 </html>
