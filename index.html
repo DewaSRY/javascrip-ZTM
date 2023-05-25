@@ -1,40 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="favicon.png" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css"
     />
     <link rel="stylesheet" href="index.css" />
-    <title>Document</title>
   </head>
   <body>
-    <div id="circleTime">
-      <svg height="400" width="400">
-        <circle
-          r="190"
-          cx="200"
-          cy="200"
-          fill="transparent"
-          stroke="green"
-          stroke-width="15"
-          transform="rotate(-90 200 200)"
-        />
-      </svg>
-      <div id="timeCount">
-        <input id="duration" type="text" value="30" />
-        <div class="button">
-          <button id="start"><i class="fas fa-play"></i></button>
-          <button id="pause"><i class="fas fa-pause"></i></button>
+    <section class="hero is-primary is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Movie Fight
+            <span class="icon">
+              <i class="fas fa-film"></i>
+            </span>
+          </h1>
         </div>
       </div>
+    </section>
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+          <div id="left-autocomplete"></div>
+          <div id="left-summary"></div>
+        </div>
+        <div class="column">
+          <div id="right-autocomplete"></div>
+          <div id="right-summary"></div>
+        </div>
+      </div>
+      <div class="column is-half notification isprimary tutorial">
+        <h1 class="title">Search For movie on Both Side</h1>
+        <p class="subtitle">We will tell you which is best!</p>
+      </div>
+      <div id="target"></div>
     </div>
-    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
-    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
-    <script src="index.js"></script>
+
+    <script src="src/autoComplite.js"></script>
+    <script src="src/index.js"></script>
+    <script src="src/utils.js"></script>
   </body>
 </html>
