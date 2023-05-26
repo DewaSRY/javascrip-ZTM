@@ -1,10 +1,43 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+      integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="index.css" />
   </head>
+  <style>
+    .row {
+      margin-top: 20vh;
+    }
+  </style>
   <body>
+    <div class="row">
+      <div class="col s8 offset-s2">
+        <div id="message-show" class="card-panel hide">
+          <h1>Your secret message is:</h1>
+          <br />
+          <h2 id="your-message"></h2>
+          <hr />
+          <div><a href="./index.html">Create your own secret message</a></div>
+        </div>
+        <div class="card-panel" id="message-form">
+          <form action="">
+            <label for="">Enter a secret Message</label>
+            <input id="message-input" type="text" />
+            <button class="btn">Create</button>
+          </form>
+        </div>
+        <div class="card-panel hide" id="link-form">
+          Share this link withe a friends
+          <input id="link-input" type="text" />
+        </div>
+      </div>
+    </div>
     <script src="src/index.js"></script>
   </body>
 </html>
